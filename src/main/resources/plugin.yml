@@ -1,0 +1,12 @@
+name: FireworkRNM
+version: 1.0-SNAPSHOT
+main: engineer.skyouo.plugins.fireworkrnm.FireworkRNM
+depend: [WorldEdit]
+api-version: 1.18
+commands:
+  firework:
+    usage: /firework
+    permission: firework.rnm
+permissions:
+  firework.rnm:
+    default: op
