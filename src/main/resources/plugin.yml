@@ -2,7 +2,7 @@ name: FireworkRNM
 version: 1.0-SNAPSHOT
 main: engineer.skyouo.plugins.fireworkrnm.FireworkRNM
 depend: [WorldEdit]
-api-version: 1.18
+api-version: 1.21
 commands:
   firework:
     usage: /firework

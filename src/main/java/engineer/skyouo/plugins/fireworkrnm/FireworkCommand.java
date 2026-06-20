@@ -5,17 +5,12 @@ import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.session.SessionManager;
-import com.sk89q.worldedit.session.SessionOwner;
-import com.sk89q.worldedit.util.formatting.text.Component;
-import com.sk89q.worldedit.util.formatting.text.TextComponent;
 import com.sk89q.worldedit.world.World;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,24 +21,23 @@ public class FireworkCommand implements TabExecutor {
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     int number = 10;
     if (args.length == 1)
-      number = Integer.parseInt(args[0]); 
+      number = Integer.parseInt(args[0]);
     Player player = (Player)sender;
-    BukkitPlayer bukkitPlayer = BukkitAdapter.adapt(player);
     SessionManager manager = WorldEdit.getInstance().getSessionManager();
-    LocalSession localSession = manager.get((SessionOwner)bukkitPlayer);
+    LocalSession localSession = manager.get(BukkitAdapter.adapt(player));
     World selectionWorld = localSession.getSelectionWorld();
     try {
       if (selectionWorld == null)
-        throw new IncompleteRegionException(); 
+        throw new IncompleteRegionException();
       Region region = localSession.getSelection(selectionWorld);
       for (int i = 0; i < number; i++) {
         Vector3d v3d = getRandomPoint(region.getMinimumPoint(), region.getMaximumPoint());
         FireworkUtil.random(new Location(player.getWorld(), v3d.getX(), v3d.getY(), v3d.getZ()));
       }
     } catch (IncompleteRegionException ex) {
-      bukkitPlayer.printError((Component)TextComponent.of(ChatColor.translateAlternateColorCodes('&', " &7您沒有框定範圍，無法放煙火！")));
+      player.sendMessage("§7您沒有框定範圍，無法放煙火！");
       return true;
-    } 
+    }
     return true;
   }
   

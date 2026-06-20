@@ -4,18 +4,18 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public class FireworkUtil {
     public static void random(Location loc) {
-        Firework firework = (Firework)loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
-        FireworkMeta fireworkMeta = firework.getFireworkMeta();
-        FireworkEffect effect = FireworkEffect.builder().flicker(ThreadLocalRandom.current().nextBoolean()).withColor(getColor(ThreadLocalRandom.current().nextInt(17) + 1)).withFade(getColor(ThreadLocalRandom.current().nextInt(17) + 1)).with(FireworkEffect.Type.values()[ThreadLocalRandom.current().nextInt((FireworkEffect.Type.values()).length)]).trail(ThreadLocalRandom.current().nextBoolean()).build();
-        fireworkMeta.addEffect(effect);
-        fireworkMeta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);
-        firework.setFireworkMeta(fireworkMeta);
+        loc.getWorld().spawn(loc, Firework.class, firework -> {
+            FireworkMeta fireworkMeta = firework.getFireworkMeta();
+            FireworkEffect effect = FireworkEffect.builder().flicker(ThreadLocalRandom.current().nextBoolean()).withColor(getColor(ThreadLocalRandom.current().nextInt(17) + 1)).withFade(getColor(ThreadLocalRandom.current().nextInt(17) + 1)).with(FireworkEffect.Type.values()[ThreadLocalRandom.current().nextInt((FireworkEffect.Type.values()).length)]).trail(ThreadLocalRandom.current().nextBoolean()).build();
+            fireworkMeta.addEffect(effect);
+            fireworkMeta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);
+            firework.setFireworkMeta(fireworkMeta);
+        });
     }
     
     private static Color getColor(int i) {
